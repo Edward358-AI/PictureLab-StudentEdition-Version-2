@@ -89,7 +89,20 @@ public class Picture extends SimplePicture
 	flip all the colors:  if color had red = 30, green = 100, blue = 200
 	negated color red = 225, green= 155, blue = 55  */
 	public void negate() {
-		
+		Pixel[][] pixels = this.getPixels2D(); // gets all the pixels in an image, stores in 2d array
+
+		// Pixel[][] pixels = this.getPixels2D();     
+		Pixel pixel = null;     // temp var that holds the current pixel
+		for (int row = 0; row < pixels.length; row++)     // loop through rows of pixels
+		{       for (int col = 0; col < pixels[0].length; col++)   // loop through each pixel in a row
+			{        
+								pixel = pixels[row][col];   // set current pixel 
+								pixel.setRed(255 - pixel.getRed());
+								pixel.setGreen(255 - pixel.getGreen());
+								pixel.setBlue(255 - pixel.getBlue());     
+		 						    
+			}     
+		}  
 		
 	}
 	
@@ -98,7 +111,21 @@ public class Picture extends SimplePicture
 	   and blue components and set each component to that average
 	*/
 	public void grayScale() {
-		
+		Pixel[][] pixels = this.getPixels2D(); // gets all the pixels in an image, stores in 2d array
+
+		// Pixel[][] pixels = this.getPixels2D();     
+		Pixel pixel = null;     // temp var that holds the current pixel
+		for (int row = 0; row < pixels.length; row++)     // loop through rows of pixels
+		{       for (int col = 0; col < pixels[0].length; col++)   // loop through each pixel in a row
+			{        
+								pixel = pixels[row][col];   // set current pixel 
+								int val = (pixel.getRed() + pixel.getGreen() + pixel.getBlue()) / 3;
+								pixel.setRed(val);
+								pixel.setGreen(val);
+								pixel.setBlue(val);
+		 						    
+			}     
+		}  
 	}
 
   /** pixelates an image
@@ -107,20 +134,96 @@ public class Picture extends SimplePicture
   public void pixelate() {
     
   }
-
-	public void keepOnlyBlue()   
-	{     
-
-		 Pixel[][] pixels = this.getPixels2D();
+/* 
+ * Pixel[][] pixels = this.getPixels2D(); // gets all the pixels in an image, stores in 2d array
 
 		// Pixel[][] pixels = this.getPixels2D();     
-		Pixel pixel = null;     
-		for (int row = 0; row < pixels.length; row++)     
-		{       for (int col = 0; col < pixels[0].length; col++)       
+		Pixel pixel = null;     // temp var that holds the current pixel
+		for (int row = 0; row < pixels.length; row++)     // loop through rows of pixels
+		{       for (int col = 0; col < pixels[0].length; col++)   // loop through each pixel in a row
 			{        
-								pixel = pixels[row][col];         
-		 						pixel.setRed(0);         
-		 						pixel.setGreen(0);       
+								pixel = pixels[row][col];   // set current pixel 
+								
+		 						    
+			}     
+		} 
+ */
+
+	public void setRedToHalfValueInTopHalf() {
+		Pixel[][] pixels = this.getPixels2D(); // gets all the pixels in an image, stores in 2d array
+
+		// Pixel[][] pixels = this.getPixels2D();     
+		Pixel pixel = null;     // temp var that holds the current pixel
+		for (int row = 0; row < pixels.length/2; row++)     // loop through rows of pixels
+		{       for (int col = 0; col < pixels[0].length; col++)   // loop through each pixel in a row
+			{        
+								pixel = pixels[row][col];   // set current pixel 
+								pixel.setRed(pixel.getRed() / 2);
+		 						    
+			}     
+		} 
+	}
+
+	public void clearBlueOverValue(int i) {
+		Pixel[][] pixels = this.getPixels2D(); // gets all the pixels in an image, stores in 2d array
+
+		// Pixel[][] pixels = this.getPixels2D();     
+		Pixel pixel = null;     // temp var that holds the current pixel
+		for (int row = 0; row < pixels.length/2; row++)     // loop through rows of pixels
+		{       for (int col = 0; col < pixels[0].length; col++)   // loop through each pixel in a row
+			{        
+								pixel = pixels[row][col];   // set current pixel 
+								pixel.setBlue((pixel.getBlue() > i) ? 0 : pixel.getBlue());
+		 						    
+			}     
+		} 
+	}
+	public int getCountRedOverValue(int v) {
+		int total = 0;
+		Pixel[][] pixels = this.getPixels2D(); // gets all the pixels in an image, stores in 2d array
+
+		// Pixel[][] pixels = this.getPixels2D();     
+		Pixel pixel = null;     // temp var that holds the current pixel
+		for (int row = 0; row < pixels.length; row++)     // loop through rows of pixels
+		{       for (int col = 0; col < pixels[0].length; col++)   // loop through each pixel in a row
+			{        
+								pixel = pixels[row][col];   // set current pixel 
+								total += (pixel.getRed() > v) ? 1 : 0;
+		 						    
+			}     
+		} 
+		return total;
+	}
+
+	public void keepOnlyColor(int color)   
+	{     
+
+		 Pixel[][] pixels = this.getPixels2D(); // gets all the pixels in an image, stores in 2d array
+
+		// Pixel[][] pixels = this.getPixels2D();     
+		Pixel pixel = null;     // temp var that holds the current pixel
+		for (int row = 0; row < pixels.length; row++)     // loop through rows of pixels
+		{       for (int col = 0; col < pixels[0].length; col++)   // loop through each pixel in a row
+			{        
+								pixel = pixels[row][col];   // set current pixel 
+								switch(color) {
+									case 0: {
+										pixel.setBlue(0);    // makes the R value in rgb of the pixel 0     
+		 							pixel.setGreen(0);  // makes the G value in rgb of the pixel 0 
+									break;
+									}
+									case 1: {
+										pixel.setRed(0);    // makes the R value in rgb of the pixel 0     
+		 								pixel.setBlue(0);  // makes the G value in rgb of the pixel 0 
+										break;
+									}
+									case 2: {
+										pixel.setRed(0);    // makes the R value in rgb of the pixel 0     
+		 								pixel.setGreen(0);  // makes the G value in rgb of the pixel 0 
+										break;
+									}
+								}     
+		 						    
 			}     
 		}  
 	}
@@ -210,6 +313,19 @@ public class Picture extends SimplePicture
 		Pixel[][] pixels = this.getPixels2D();// gets the 2D array of Pixel
 		// Big hint, the Pixel class has a method called colorDistance(Color) which
 		// returns the distance the input Color is from this Pixel's Color
+		// Pixel[][] pixels = this.getPixels2D();     
+		Pixel pixel = null;     // temp var that holds the current pixel
+		for (int row = 0; row < pixels.length; row++)     // loop through rows of pixels
+		{       for (int col = 0; col < pixels[0].length - 1; col++)   // loop through each pixel in a row
+			{        
+								leftPixel = pixels[row][col];   // set current pixel 
+								rightPixel = pixels[row][col+1];
+								if (leftPixel.colorDistance(rightPixel.getColor()) > edgeDist) {
+									leftPixel.setColor(new Color(0,0,0));
+								} else leftPixel.setColor(new Color(255, 255, 255));
+		 						    
+			}     
+		} 
 
 	}
 
